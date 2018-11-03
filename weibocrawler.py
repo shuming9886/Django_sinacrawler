@@ -1,4 +1,4 @@
-#python3
+# python3
 # coding=utf-8
 import requests
 import json
@@ -16,7 +16,7 @@ url="https://m.weibo.cn/container/getIndex?type=wb&queryVal={}&luicode=10000011&
 def crawler(keyword):
     result=[]
     pagecode=parse.quote(keyword)
-    number=0
+    # 爬取微博的页面数量
     pagenum=10
     fw=open("weibo.txt","w",encoding='utf-8')
     for i in range(1,pagenum):
@@ -30,30 +30,27 @@ def crawler(keyword):
             itemText = thisdata['data']['cards'][0]['card_group'][i]['mblog']['text']
             if thisdata['data']['cards'][0]['card_group'][i]['mblog']['isLongText'] == True:
                 itemText =thisdata['data']['cards'][0]['card_group'][i]['mblog']['longText']['longTextContent']
-            # print(itemText)
-            # print(type(itemText))
             soup = BeautifulSoup(itemText, "html.parser")
             itemTextPretty = ""
             for string in soup.stripped_strings:
                 itemTextPretty += string
-            # print(itemTextPretty)
             pattern=re.compile('\n+')                                   #去除文本中的换行符
             itemTextPretty=pattern.sub('',itemTextPretty)
             pattern1=re.compile(r'http://[a-zA-Z0-9.?/&=:]*', re.S)     #去除文本中的url链接
             itemTextPretty=pattern1.sub('',itemTextPretty)
             # pattern2=re.compile('👉|🙏|👏|😍|😊|💰|🎁|🤔|🌂|🙊|✌|👿|🍬|💓|🙏|↓|♡|💪|🎺|🌟',re.S)         #去除文本中的表情符号
             # itemTextPretty=pattern2.sub('',itemTextPretty)
-            pattern3=re.compile('\[.*?\]',re.S)                         #去除文本中的表情[星星][心]
+            pattern3=re.compile(r'\[.*?\]',re.S)                         #去除文本中的表情[星星][心]
             itemTextPretty=pattern3.sub('',itemTextPretty)
-            pattern4=re.compile('网页链接',re.S)
+            pattern4=re.compile(r'网页链接',re.S)
             itemTextPretty=pattern4.sub('',itemTextPretty)
-            pattern5=re.compile('(#\w+#)',re.S)                         #去除主题
+            pattern5=re.compile(r'(#\w+#)',re.S)                         #去除主题
             itemTextPretty=pattern5.sub('',itemTextPretty)
-            pattern6=re.compile('(@\w+)',re.S)                          #去除@
+            pattern6=re.compile(r'(@\w+)',re.S)                          #去除@
             itemTextPretty=pattern6.sub('',itemTextPretty)
-            pattern7=re.compile('//:',re.S)
+            pattern7=re.compile(r'//:',re.S)
             itemTextPretty=pattern7.sub('',itemTextPretty)
-            pattern8=re.compile('转发微博',re.S)
+            pattern8=re.compile(r'转发微博',re.S)
             itemTextPretty=pattern8.sub('',itemTextPretty)
             itemTextPretty.strip()
             if itemTextPretty!='' and itemTextPretty not in result:
@@ -61,3 +58,11 @@ def crawler(keyword):
                 fw.write(itemTextPretty+'\n')
     fw.close()
     return result
+
+def main():
+    weibodata=crawler("苏州大学")
+    for data in weibodata:
+        print(data)
+
+if __name__ == '__main__':
+    main()
