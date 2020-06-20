@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>微博爬取</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.css">
+    <script src="../static/javascript/jquery.min.js"></script>
+    <script type="text/javascript">
+        function operation(){
+            document.getElementById('loading').style.display = '';
+            $("#message3").val('');//清空
+            $("#con").empty();
+            $("#k1").empty();
+            $("#k2").empty();
+            $("#k3").empty();
+            $("#k4").empty();
+            $("#k5").empty();
+            $("#abcd").empty();
+        }
+    </script>
+
+    <script type="text/javascript">
+        function myFunc1() {
+            if(document.getElementById('k1').value!='') {
+                document.getElementById('display1').style.display = '';
+                document.getElementById('display2').style.display ='none';
+                document.getElementById('display3').style.display ='none';
+                document.getElementById('display4').style.display ='none';
+                document.getElementById('display5').style.display ='none';
+            }
+
+        }
+    </script>
+
+    <script type="text/javascript">
+        function myFunc2() {
+            if(document.getElementById('k2').value!='') {
+                document.getElementById('display2').style.display = '';
+                document.getElementById('display1').style.display ='none';
+                document.getElementById('display3').style.display ='none';
+                document.getElementById('display4').style.display ='none';
+                document.getElementById('display5').style.display ='none';
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function myFunc3() {
+            if(document.getElementById('k3').value!='') {
+                document.getElementById('display3').style.display = '';
+                document.getElementById('display1').style.display ='none';
+                document.getElementById('display2').style.display ='none';
+                document.getElementById('display4').style.display ='none';
+                document.getElementById('display5').style.display ='none';
+            }
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        function myFunc4() {
+            if(document.getElementById('k4').value!='') {
+                document.getElementById('display4').style.display = '';
+                document.getElementById('display1').style.display ='none';
+                document.getElementById('display2').style.display ='none';
+                document.getElementById('display3').style.display ='none';
+                document.getElementById('display5').style.display ='none';
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        function myFunc5() {
+            if(document.getElementById('k5').value!='') {
+                document.getElementById('display5').style.display = '';
+                document.getElementById('display1').style.display ='none';
+                document.getElementById('display2').style.display ='none';
+                document.getElementById('display3').style.display ='none';
+                document.getElementById('display4').style.display ='none';
+            }
+        }
+    </script>
+
+    <script type="text/javascript" src="http://www.sucaihuo.com/Public/js/other/jquery.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            let scrtime;
+            $("#con").hover(function() {
+                clearInterval(scrtime);
+            }, function() {
+                scrtime = setInterval(function() {
+                    let ul = $("#con ul");
+                    let liHeight = ul.find("li:last").height();
+                    ul.animate({marginTop: liHeight + 20 + "px"}, 1000, function() {
+                        ul.find("li:last").prependTo(ul);
+                        ul.find("li:first").hide();
+                        ul.css({marginTop: 0});
+                        ul.find("li:first").fadeIn(1000);
+                    });
+                }, 3000);
+            }).trigger("mouseleave");
+        });
+    </script>
+    <style type="text/css">
+        body{
+              margin: 0;
+              padding: 0;
+            }
+
+        #top-image {
+          background: linear-gradient(
+              rgba(0, 0, 0, 0.2),
+              rgba(0, 0, 0, 0.2)
+          ), url('../static/image/bg1.jpg') no-repeat fixed;
+          position:fixed ;
+          top:0;
+          width:100%;
+          z-index:0;
+          height:100%;
+          overflow-y:auto;
+        }
+
+        #loading{
+            position: absolute;
+            width:500px;
+            height:50px;
+            top:30%;
+            left:40%;
+        }
+
+        .bows {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:transparent;
+        }
+
+        .rainbow {
+            width: 20em;
+            height: 10em;
+            overflow: hidden;
+        }
+
+        .bows {
+            width: 100%;
+            height: 200%;
+            position: relative;
+            transform: rotate(225deg);
+        }
+
+        .bows span {
+            position: absolute;
+            width: calc(100% - 2em * (var(--n) - 1));
+            height: calc(100% - 2em * (var(--n) - 1));
+            border: 1em solid var(--color);
+            box-sizing: border-box;
+            border-top-color: transparent;
+            border-left-color: transparent;
+            border-radius: 50%;
+            animation: rotating 3s infinite;
+            animation-delay: calc(0.05s * var(--n));
+        }
+
+        .bows span:nth-child(1) {
+            --n: 1;
+            --color: orangered;
+        }
+
+        .bows span:nth-child(2) {
+            --n: 2;
+            --color: orange;
+        }
+
+        .bows span:nth-child(3) {
+          --n: 3;
+          --color: yellow;
+        }
+
+        .bows span:nth-child(4) {
+          --n: 4;
+          --color: mediumspringgreen;
+        }
+
+        .bows span:nth-child(5) {
+          --n: 5;
+          --color: deepskyblue;
+        }
+
+        .bows span:nth-child(6) {
+          --n: 6;
+          --color: mediumpurple;
+        }
+
+        @keyframes rotating {
+            0%, 20% {
+                transform: rotate(0deg);
+            }
+
+            80%, 100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        #con { width:100%; height:300px; margin-top:20px; position:relative; background-color:#fff; overflow:hidden;border-radius:10px;}
+        #con ul{ position:absolute; margin:0 10px; top:0; left:0; padding:0;}
+        #con ul li{ width:100%; height: 100px; border-bottom:1px dashed #ccc;overflow:hidden; }
+        #con ul li a.avatar{ float:left; width:50px; height:50px; margin-top:2px; padding:2px;text-decoration: none;}
+        #con ul li p{margin-left:60px;line-height:22px;font-size: 12px;}
+        #content img{-webkit-border-radius: 5px;-moz-border-radius: 5px;-ms-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;}
+    </style>
+</head>
+<body>
+    <div id="top-image">
+        <div class="container">
+        <br>
+            <h1 style="text-align: center;color: #ffffff;font-weight:500;font-size:60px;">微博爬取</h1>
+            <div class="row">
+                <div class="col-3">
+                </div>
+
+                <div class="col-6">
+                    <form action="" method="get">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="输入关键词" aria-label="Recipient's username" aria-describedby="basic-addon2" name="a">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" onclick="operation()">提交</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div id="con">
+                        <ul>
+                            {% for sentence in result1 %}
+                                <li>
+                                    <a href="#" class="avatar"><img src="http://tp1.sinaimg.cn/3876734080/50/22898583876/1" /></a>
+                                    <p>{{sentence}}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div style="flex-direction: column;margin-top: 15px;overflow:auto;">
+                         <textarea id="k1" readonly='readonly' onclick="myFunc1()" style="text-align:center;margin-top: 10px;border-radius:10px;width:100%;height:30px;border:0;resize:none;cursor:pointer;">{{ result3}}</textarea>
+                         <textarea id="k2" readonly='readonly' onclick="myFunc2()" style="cursor:pointer;text-align:center;margin-top: 10px;border-radius:10px;width:100%;height:30px;border:0;resize:none;">{{ result4}}</textarea>
+                         <textarea id="k3" readonly='readonly' onclick="myFunc3()" style="cursor:pointer;text-align:center;margin-top: 10px;border-radius:10px;width:100%;height:30px;border:0;resize:none;">{{ result5}}</textarea>
+                         <textarea id="k4" readonly='readonly' onclick="myFunc4()" style="cursor:pointer;text-align:center;margin-top: 10px;border-radius:10px;width:100%;height:30px;border:0;resize:none;">{{ result6}}</textarea>
+                         <textarea id="k5" readonly='readonly' onclick="myFunc5()" style="cursor:pointer;text-align:center;margin-top: 10px;border-radius:10px;width:100%;height:30px;border:0;resize:none;">{{ result7}}</textarea>
+                    </div>
+
+                </div>
+
+                <div class="col-3">
+                    <div id="display1" style="flex-direction: row;display: none;">
+                        <textarea id='abcd' readonly="readonly" style="resize: none;width: 350px;height: 500px;border-radius:10px;" >{{ weibodata1 }}</textarea>
+                    </div>
+
+                    <div id="display2" style="flex-direction: row;display: none;">
+                        <textarea id='abcd' readonly="readonly" style="resize: none;width: 350px;height: 500px;border-radius:10px;" >{{ weibodata2 }}</textarea>
+                    </div>
+
+                    <div id="display3" style="flex-direction: row;display: none;">
+                        <textarea id='abcd' readonly="readonly" style="resize: none;width: 350px;height: 500px;border-radius:10px;" >{{ weibodata3 }}</textarea>
+                    </div>
+
+                    <div id="display4" style="flex-direction: row;display: none;">
+                        <textarea id='abcd' readonly="readonly" style="resize: none;width: 350px;height: 500px;border-radius:10px;" >{{ weibodata4 }}</textarea>
+                    </div>
+
+                    <div id="display5" style="flex-direction: row;display: none;">
+                        <textarea id='abcd' readonly="readonly" style="resize: none;width: 350px;height: 500px;border-radius:10px;" >{{ weibodata5 }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#    加载动画#}
+    <div id="loading" style="display: none;z-index:9999;">
+        <div class="rainbow">
+          <div class="bows">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <div style="font-size: 20px;margin-left: 120px;">
+            <p>加载中...</p>
+        </div>
+    </div>
+
+</body>
+</html>
